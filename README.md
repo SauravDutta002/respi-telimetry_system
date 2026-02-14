@@ -29,6 +29,8 @@ Expected:
 
 ⚙️ STEP 6 — Manual Test (IMPORTANT)
 
+pip install future
+
 Run MAVProxy manually:
 
 mavproxy.py --master=/dev/ttyACM0 --out udp:<LAPTOP_IP>:14550
