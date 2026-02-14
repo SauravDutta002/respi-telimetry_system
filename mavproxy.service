@@ -1,0 +1,16 @@
+[Unit]
+Description=MAVProxy Autostart Service
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi
+
+ExecStart=/bin/bash -c 'until [ -e /dev/ttyACM0 ]; do sleep 2; done; /home/pi/mavenv/bin/mavproxy.py --master=/dev/ttyACM0 --out udp:192.168.15.122:14550 --logfile=/home/pi/mav.tlog --daemon'
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
