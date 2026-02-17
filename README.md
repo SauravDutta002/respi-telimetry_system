@@ -215,11 +215,3 @@ Your Pi now:
 
 ---
 
-## 💡 Pro Tips for Good README Formatting
-
-✅ Leave **blank lines** between sections
-✅ Use `---` to create separators
-✅ Always put commands in code blocks
-✅ Keep one idea per line
-✅ Use bullets instead of paragraphs
-
