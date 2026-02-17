@@ -1,82 +1,132 @@
-🚁 MAVProxy Auto-Start Setup on Raspberry Pi
+Got it 👍 — your README currently looks **cramped and inline**, because:
 
-This guide helps you set up MAVProxy on a Raspberry Pi, connect it to a flight controller (FC), and configure it to auto-start on boot using a systemd service.
+* Commands are on the same line as text
+* No spacing between sections
+* No proper lists/code blocks
+* Headers not used consistently
 
-📌 Prerequisites
+GitHub READMEs look good when you **separate content visually**.
 
-Raspberry Pi with Raspberry Pi OS
+Here’s a **cleanly separated version** you can paste directly.
 
-Internet connection
+---
 
-Flight Controller (Pixhawk/Ardupilot compatible)
+# 🚁 MAVProxy Auto-Start Setup on Raspberry Pi
 
-USB cable to connect FC to Pi
+> Set up MAVProxy on a Raspberry Pi, connect to a flight controller, and auto-start on boot using systemd.
 
-Laptop running GCS (e.g., QGroundControl)
+---
 
-Know your Laptop IP address
+# 📌 Prerequisites
 
-⚙️ Installation & Setup
-✅ Step 1 — Update Raspberry Pi
+* Raspberry Pi with Raspberry Pi OS
+* Internet connection
+* Flight Controller (Pixhawk / Ardupilot compatible)
+* USB cable
+* Laptop running GCS (QGroundControl / Mission Planner)
+* Your laptop IP address
+
+---
+
+# ⚙️ Installation & Setup
+
+---
+
+## ✅ Step 1 — Update Raspberry Pi
+
+```bash
 sudo apt update
 sudo apt upgrade -y
+```
 
-✅ Step 2 — Install Python Tools
+---
+
+## ✅ Step 2 — Install Python Tools
+
+```bash
 sudo apt install python3-pip python3-venv -y
+```
 
-✅ Step 3 — Create Virtual Environment
+---
+
+## ✅ Step 3 — Create Virtual Environment
+
+```bash
 python3 -m venv mavenv
 source mavenv/bin/activate
+```
 
-✅ Step 4 — Install MAVProxy
+---
+
+## ✅ Step 4 — Install MAVProxy
+
+```bash
 pip install MAVProxy --resume-retries 10 --no-cache-dir
+```
 
-🔌 Flight Controller Setup
-✅ Step 5 — Verify FC Detection
+---
 
-Plug the flight controller into the Pi via USB.
+# 🔌 Flight Controller Setup
 
-Check if it is detected:
+---
 
+## ✅ Step 5 — Verify FC Detection
+
+Plug the flight controller into the Pi.
+
+Check detection:
+
+```bash
 ls /dev/ttyACM*
+```
 
-Expected Output
+### Expected Output
+
+```bash
 /dev/ttyACM0
+```
 
+If not detected:
 
-If not detected, try another USB port or cable.
+* Try another USB cable
+* Try another port
+* Check power supply
 
-✅ Step 6 — Manual MAVProxy Test (IMPORTANT)
+---
+
+## ✅ Step 6 — Manual MAVProxy Test (IMPORTANT)
 
 Install dependency:
 
+```bash
 pip install future
+```
 
+Run MAVProxy:
 
-Run MAVProxy manually:
-
+```bash
 mavproxy.py --master=/dev/ttyACM0 --out udp:<LAPTOP_IP>:14550
+```
 
+Replace `<LAPTOP_IP>` with your laptop IP.
 
-Replace:
+✅ If telemetry appears in GCS → Working!
 
-<LAPTOP_IP>
+---
 
+# 🚀 Auto-Start on Boot
 
-with your laptop’s actual IP.
+---
 
-If successful, your GCS should connect.
+## ✅ Step 7 — Create systemd Service
 
-🚀 Auto-Start on Boot
-✅ Step 7 — Create systemd Service
-
-Create the service file:
-
+```bash
 sudo nano /etc/systemd/system/mavproxy.service
-
+```
 
 Paste:
 
+```ini
 [Unit]
 Description=MAVProxy Autostart Service
 After=network.target
@@ -93,65 +143,96 @@ RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
+```
 
+---
 
-Replace:
+## ✅ Step 8 — Enable Service
 
-<LAPTOP_IP>
-
-
-with your laptop IP.
-
-Save and exit.
-
-✅ Step 8 — Enable Service
+```bash
 sudo systemctl daemon-reload
 sudo systemctl enable mavproxy.service
 sudo systemctl start mavproxy.service
+```
 
-✅ Step 9 — Check Service Status
+---
+
+## ✅ Step 9 — Check Service Status
+
+```bash
 sudo systemctl status mavproxy.service
+```
 
-Expected
+Expected:
+
+```
 active (running)
+```
 
-🔁 Step 10 — Reboot Test
+---
+
+## 🔁 Step 10 — Reboot Test
+
+```bash
 sudo reboot
+```
 
+MAVProxy should now auto-start 🎉
 
-After reboot, MAVProxy should auto-start and connect automatically.
+---
 
-📂 Log File
+# 📂 Logs
 
-Telemetry logs are saved at:
+Telemetry logs:
 
+```
 /home/pi/mav.tlog
+```
 
-🛠️ Troubleshooting
-FC not detected
+---
 
-Try different USB cable
+# 🛠️ Troubleshooting
 
-Check power supply
+### FC Not Detected
 
-Run:
-
+```bash
 dmesg | grep tty
+```
 
-Service not starting
+---
 
-Check logs:
+### Service Issues
 
+```bash
 journalctl -u mavproxy.service -f
+```
 
-No GCS connection
+---
 
-Confirm laptop IP
+### No GCS Connection
 
-Check firewall settings
+* Confirm laptop IP
+* Same network
+* Check firewall
 
-Ensure both devices are on same network
+---
 
-🎯 Done!
+# 🎯 Done!
 
-Your Raspberry Pi now automatically runs MAVProxy and streams telemetry on boot.
+Your Pi now:
+
+* Auto connects to FC
+* Streams telemetry
+* Starts on boot
+* Logs flight data
+
+---
+
+## 💡 Pro Tips for Good README Formatting
+
+✅ Leave **blank lines** between sections
+✅ Use `---` to create separators
+✅ Always put commands in code blocks
+✅ Keep one idea per line
+✅ Use bullets instead of paragraphs
+
