@@ -1,16 +1,3 @@
-Got it 👍 — your README currently looks **cramped and inline**, because:
-
-* Commands are on the same line as text
-* No spacing between sections
-* No proper lists/code blocks
-* Headers not used consistently
-
-GitHub READMEs look good when you **separate content visually**.
-
-Here’s a **cleanly separated version** you can paste directly.
-
----
-
 # 🚁 MAVProxy Auto-Start Setup on Raspberry Pi
 
 > Set up MAVProxy on a Raspberry Pi, connect to a flight controller, and auto-start on boot using systemd.
